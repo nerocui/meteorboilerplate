@@ -14,6 +14,8 @@ class MePage extends React.Component {
 	componentDidMount() {
 		this.tracker = Tracker.autorun(() => {
 			if (!Meteor.userId()) {
+				//use Tracker autorun implementation, can switch to withTracker
+				//container implementation is this method becomes unreliable
 				this.props.history.push('/');
 			}
 		})

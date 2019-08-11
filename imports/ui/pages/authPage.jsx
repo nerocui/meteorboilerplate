@@ -1,11 +1,19 @@
 import React from 'react';
 import { withTracker } from "meteor/react-meteor-data";
-import {Tracker} from 'meteor/tracker';
 import { withRouter, Redirect } from "react-router-dom";
 import { Meteor } from "meteor/meteor";
 import { Accounts } from 'meteor/accounts-base';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
+
+const Input = withStyles({
+	root: {
+		'& .MuiOutlinedInput-input': {
+			width: '20rem',
+		},
+	},
+})(TextField);
 
 class AuthPage extends React.Component {
 	constructor(props) {
@@ -65,12 +73,24 @@ class AuthPage extends React.Component {
 			return (<Redirect to='/chatlist'/>);
 		}
 		return (
-			<div>
-				<form onSubmit={this.onSubmit}>
-					<TextField label="Email" value={this.state.email} onChange={this.onEmailChange} />
-					<TextField label="Password" value={this.state.password} onChange={this.onPasswordChange} type="password"/>
-					<Button type="submit">{this.state.mode === 'login' ? 'Login' : 'Signup'}</Button>
-					<Button onClick={this.onToggleMode}>{this.state.mode === 'login' ? "Don't have an account? Signup" : "Already have an account? Login"}</Button>
+			<div className="page--authpage-container page">
+				{
+					this.state.mode === 'login' ?
+					(<h1 className="component--authpage_title">Login</h1>) : (<h1 className="component--authpage_title">Signup</h1>)
+				}
+				<form onSubmit={this.onSubmit} className="component--authpage-form">
+					<div className="form-input">
+						<Input label="Email" value={this.state.email} onChange={this.onEmailChange} variant="outlined" />
+					</div>
+					<div className="form-input">
+						<Input label="Password" value={this.state.password} onChange={this.onPasswordChange} type="password" variant="outlined" />
+					</div>
+					<div>
+						<Button variant="contained" color="primary" type="submit">{this.state.mode === 'login' ? 'Login' : 'Signup'}</Button>
+					</div>
+					<div>
+						<Button onClick={this.onToggleMode}>{this.state.mode === 'login' ? "Don't have an account? Signup" : "Already have an account? Login"}</Button>
+					</div>
 				</form>
 			</div>
 		);
