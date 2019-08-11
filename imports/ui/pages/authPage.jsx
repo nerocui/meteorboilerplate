@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTracker } from "meteor/react-meteor-data";
 import {Tracker} from 'meteor/tracker';
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import { Meteor } from "meteor/meteor";
 import { Accounts } from 'meteor/accounts-base';
 import TextField from '@material-ui/core/TextField';
@@ -24,18 +24,6 @@ class AuthPage extends React.Component {
 		this.onToggleMode = this.onToggleMode.bind(this);
 	}
 
-	componentDidMount() {
-		this.tracker = Tracker.autorun(() => {
-			if (Meteor.userId()) {
-				this.props.history.push('/chatlist');
-			}
-		});
-	}
-
-	componentWillUnmount() {
-		this.tracker.stop();
-	}
-
 	onEmailChange(e) {
 		this.setState({email: e.target.value});
 	}
@@ -50,6 +38,7 @@ class AuthPage extends React.Component {
 		const password = this.state.password;
 		console.log(this.state);
 		if (this.state.mode === 'login') {
+			console.log('trying to log in');
 			this.props.login({email}, password, err => {
 				console.log(err);
 			});
@@ -72,6 +61,9 @@ class AuthPage extends React.Component {
 	}
 
 	render() {
+		if (this.props.loggedIn) {
+			return (<Redirect to='/chatlist'/>);
+		}
 		return (
 			<div>
 				<form onSubmit={this.onSubmit}>
@@ -88,6 +80,7 @@ class AuthPage extends React.Component {
 const AuthPageContainer =  withTracker(
 	() => {
 		return {
+			loggedIn: Meteor.userId(),
 			createUser: Accounts.createUser,
 			login: Meteor.loginWithPassword,
 		};
