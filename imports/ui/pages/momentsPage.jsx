@@ -1,5 +1,8 @@
 import React from 'react';
+import Page from './Page';
 
 export default () => (
-	<div>moments page</div>
+	<Page background="#4657f2">
+		<div>moments page</div>
+	</Page>
 );

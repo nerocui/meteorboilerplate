@@ -44,9 +44,7 @@ class AuthPage extends React.Component {
 		e.preventDefault();
 		const email = this.state.email;
 		const password = this.state.password;
-		console.log(this.state);
 		if (this.state.mode === 'login') {
-			console.log('trying to log in');
 			this.props.login({email}, password, err => {
 				console.log(err);
 			});

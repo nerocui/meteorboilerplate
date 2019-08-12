@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { Accounts } from "meteor/accounts-base";
 import { Button } from '@material-ui/core';
 import { Meteor } from 'meteor/meteor';
+import Page from './Page';
 
 class MePage extends React.Component {
 	constructor(props) {
@@ -31,9 +32,11 @@ class MePage extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<Button onClick={this.onLogout}>Log Out</Button>
-			</div>
+			<Page background="#4be59b">
+				<div>
+					<Button onClick={this.onLogout}>Log Out</Button>
+				</div>
+			</Page>
 		);
 	}
 }
