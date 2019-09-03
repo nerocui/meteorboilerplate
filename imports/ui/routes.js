@@ -1,4 +1,5 @@
 import Pages from './pages';
+import PhotosPage from './components/Photos';
 
 export default [
 	{
@@ -16,5 +17,9 @@ export default [
 	{
 		path: '/settings',
 		component: Pages.SettingsPage,
+	},
+	{
+		path: '/photos',
+		component: PhotosPage,
 	},
 ];

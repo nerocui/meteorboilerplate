@@ -15,7 +15,7 @@ export default () => (
     </List>
     <BlockTitle>Simple Links List</BlockTitle>
     <List>
-      <ListItem title="Link 1" link="#"></ListItem>
+      <ListItem title="Link 1" link="/settings"></ListItem>
       <ListItem title="Link 2" link="#"></ListItem>
       <ListItem title="Link 3" link="#"></ListItem>
     </List>

@@ -15,6 +15,6 @@ const AppPage = (props) => {
 		<View url="/" main className="safe-areas" masterDetailBreakpoint={800} />
 	  </App>
 	);
-  };
+};
   
   export default AppPage;
