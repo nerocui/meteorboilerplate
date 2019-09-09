@@ -19,7 +19,7 @@ const Input = withStyles({
 })(TextField);
 
 
-class AuthPage extends React.Component {
+class SignupPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -28,7 +28,6 @@ class AuthPage extends React.Component {
 			emailErr: '',
 			passwordErr: '',
 			err: null,
-			mode: 'login',
 			cameraOpen: false,
 			cameraReady: false,
 		}
@@ -55,22 +54,13 @@ class AuthPage extends React.Component {
 		e.preventDefault();
 		const email = this.state.email;
 		const password = this.state.password;
-		if (this.state.mode === 'login') {
-			this.props.login({email}, password, err => {
-				console.log(err);
-			});
-		} else {
-			this.props.createUser({email, password}, err => {
-				console.log(err);
-			})
-		}
-		this.resetState();
+		this.props.createUser({email, password}, err => {
+			console.log(err);
+		});
 	}
 
 	onToggleMode() {
-		const {mode} = this.state;
-		this.setState({mode: mode === 'login' ? 'signup' : 'login'});
-		this.resetState();
+		this.props.history.push('/');
 	}
 
 	resetState() {
@@ -102,10 +92,7 @@ class AuthPage extends React.Component {
 		}
 		return (
 			<div className="page--authpage-container page">
-				{
-					this.state.mode === 'login' ?
-					(<h1 className="component--authpage_title">Login</h1>) : (<h1 className="component--authpage_title">Signup</h1>)
-				}
+				<h1 className="component--authpage_title">Signup</h1>
 				{
 					this.state.cameraOpen ||
 					<React.Fragment>
@@ -120,10 +107,10 @@ class AuthPage extends React.Component {
 								<Input label="Password" value={this.state.password} onChange={this.onPasswordChange} type="password" variant="outlined" />
 							</div>
 							<div>
-								<Button variant="contained" color="primary" type="submit">{this.state.mode === 'login' ? 'Login' : 'Signup'}</Button>
+								<Button variant="contained" color="primary" type="submit">Signup</Button>
 							</div>
 							<div>
-								<Button onClick={this.onToggleMode}>{this.state.mode === 'login' ? "Don't have an account? Signup" : "Already have an account? Login"}</Button>
+								<Button onClick={this.onToggleMode}>Already have an account? Login</Button>
 							</div>
 						</form>
 					</React.Fragment>
@@ -140,17 +127,16 @@ class AuthPage extends React.Component {
 	}
 }
 
-const AuthPageContainer =  withTracker(
+const SignupPageContainer =  withTracker(
 	() => {
 		return {
 			loggedIn: Meteor.userId(),
 			createUser: Accounts.createUser,
-			login: Meteor.loginWithPassword,
 		};
 	}
-)(AuthPage);
+)(SignupPage);
 
 export default withRouter(({ history }) => (
-	<AuthPageContainer history={history} />
+	<SignupPageContainer history={history} />
 ));
 

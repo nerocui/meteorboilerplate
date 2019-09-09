@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import AuthPage from "../pages/authPage";
+import LoginPage from "../pages/LoginPage";
+import SignupPage from "../pages/SignupPage";
 import ChatListPage from '../pages/chatListPage';
 import MomentsPage from '../pages/momentsPage';
 import ContactsListPage from '../pages/contactsPage';
@@ -12,7 +13,8 @@ import { isAuthenticated } from "../../util/authUtil";
 const routes = (
 	<Router>
 		<Switch>
-			<Route exact path='/' component={AuthPage }/>
+			<Route exact path='/' component={LoginPage }/>
+			<Route exact path='/signup' component={SignupPage} />
 			<div>
 				<Route
 					render={({ location }) => {
