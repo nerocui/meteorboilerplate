@@ -29,7 +29,7 @@ class SignupPage extends React.Component {
 			passwordErr: '',
 			err: null,
 			cameraOpen: false,
-			cameraReady: false,
+			profile_pic: 'https://cdn1.iconfinder.com/data/icons/iconmart-web-icons-2/64/camera-512.png',
 		}
 		this.onEmailChange = this.onEmailChange.bind(this);
 		this.onPasswordChange = this.onPasswordChange.bind(this);
@@ -52,9 +52,8 @@ class SignupPage extends React.Component {
 
 	onSubmit(e) {
 		e.preventDefault();
-		const email = this.state.email;
-		const password = this.state.password;
-		this.props.createUser({email, password}, err => {
+		const {email, password, profile_pic} = this.state;
+		this.props.createUser({email, password, profile_pic}, err => {
 			console.log(err);
 		});
 	}
@@ -69,7 +68,7 @@ class SignupPage extends React.Component {
 
 	onTakePhoto(dataUri) {
 		console.log('Photo taken', dataUri);
-		this.setState({cameraOpen: false});
+		this.setState({cameraOpen: false, profile_pic: dataUri});
 	}
 
 	onCameraError(error) {
@@ -78,12 +77,11 @@ class SignupPage extends React.Component {
 
 	onCameraStart(stream) {
 		console.log('camera started: ', stream);
-		this.setState({cameraReady: true});
 	}
 
 	onCameraStop() {
 		console.log('camera stopped');
-		this.setState({cameraOpen: false, cameraReady: false});
+		this.setState({cameraOpen: false});
 	}
 
 	render() {
@@ -92,14 +90,14 @@ class SignupPage extends React.Component {
 		}
 		return (
 			<div className="page--authpage-container page">
-				<h1 className="component--authpage_title">Signup</h1>
 				{
 					this.state.cameraOpen ||
 					<React.Fragment>
-						<div>
-							<button onClick={() => this.setState({cameraOpen: true})}>Open Camera</button>
-						</div>
 						<form onSubmit={this.onSubmit} className="component--authpage-form">
+							<h1 className="component--authpage_title">Signup</h1>
+							<div onClick={() => this.setState({cameraOpen: true})} className="profile_pic_container">
+								<img src={this.state.profile_pic} />
+							</div>
 							<div className="form-input">
 								<Input label="Email" value={this.state.email} onChange={this.onEmailChange} variant="outlined" />
 							</div>
