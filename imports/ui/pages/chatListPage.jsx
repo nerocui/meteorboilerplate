@@ -3,7 +3,7 @@ import Page from './Page';
 import { ReactBingmaps } from 'react-bingmaps';
 import bing_map_api from '../../config/bing_map_api';
 import PaypalBtn from 'react-paypal-checkout';
-import paypal_config from '../../config/paypal';
+import KEYS from '../../config/keys';
 
 console.log("Bing map: ", ReactBingmaps);
 
@@ -20,8 +20,8 @@ const boundary = {
   };
 
 const client = {
-	sandbox:    paypal_config.client_id,
-	production: paypal_config.client_id,
+	sandbox:    KEYS.PAYPAL_API.client_id,
+	production: KEYS.PAYPAL_API.client_id,
 };
 
 export default () => (
