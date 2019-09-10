@@ -7,8 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import CameraPage from './CameraPage';
-import posed, { PoseGroup } from 'react-pose';
-import styled from 'styled-components';
+import firebase from "firebase";
+import uniqid from 'uniqid';
 
 const Input = withStyles({
 	root: {
@@ -53,8 +53,16 @@ class SignupPage extends React.Component {
 	onSubmit(e) {
 		e.preventDefault();
 		const {email, password, profile_pic} = this.state;
-		this.props.createUser({email, password, profile_pic}, err => {
-			console.log(err);
+		const file = profile_pic.split(',')[1];
+		const path = `profile_pics/${uniqid()}.jpg`;
+		const storageRef = firebase.storage().ref(path);
+		storageRef.putString(file, 'base64', {contentType:'image/jpg'}).then(function(snapshot) {
+			storageRef.getDownloadURL().then(function(url) {
+				Accounts.createUser({email, password, profile_pic: url}, err => {
+					console.log(err);
+				});
+			});
+			console.log('Uploaded a blob or file!', snapshot);
 		});
 	}
 
@@ -98,6 +106,7 @@ class SignupPage extends React.Component {
 							<div onClick={() => this.setState({cameraOpen: true})} className="profile_pic_container">
 								<img src={this.state.profile_pic} />
 							</div>
+							
 							<div className="form-input">
 								<Input label="Email" value={this.state.email} onChange={this.onEmailChange} variant="outlined" />
 							</div>
