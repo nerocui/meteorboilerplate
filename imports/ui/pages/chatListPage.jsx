@@ -1,11 +1,9 @@
 import React from 'react';
-import Page from './Page';
 import { ReactBingmaps } from 'react-bingmaps';
 import bing_map_api from '../../config/bing_map_api';
 import PaypalBtn from 'react-paypal-checkout';
 import KEYS from '../../config/keys';
 
-console.log("Bing map: ", ReactBingmaps);
 
 const boundary = {
 	"location":['chennai'],
@@ -25,7 +23,7 @@ const client = {
 };
 
 export default () => (
-	<Page background="#e5b24b">
+	<div>
 		<div>chat list page</div>
 		<div className="bingmap">
 			<ReactBingmaps
@@ -38,5 +36,5 @@ export default () => (
 			/>
 		</div>
 		<PaypalBtn client={client} currency={'USD'} total={1.00} />
-	</Page>
+	</div>
 );

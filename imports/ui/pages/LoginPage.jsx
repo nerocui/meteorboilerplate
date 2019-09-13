@@ -1,10 +1,12 @@
 import React from 'react';
 import { withTracker } from "meteor/react-meteor-data";
+import { connect } from 'react-redux';
 import { withRouter, Redirect } from "react-router-dom";
 import { Meteor } from "meteor/meteor";
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { login } from '../../actions';
 
 const Input = withStyles({
 	root: {
@@ -43,10 +45,12 @@ class LoginPage extends React.Component {
 		e.preventDefault();
 		const email = this.state.email;
 		const password = this.state.password;
-		this.props.login({email}, password, err => {
+		Meteor.loginWithPassword({email}, password, err => {
 			console.log(err);
 		});
 		this.resetState();
+		const user = Meteor.user();
+		console.log('user is: ', user);
 	}
 
 	onToggleMode() {
@@ -59,13 +63,14 @@ class LoginPage extends React.Component {
 
 
 	render() {
-		if (this.props.loggedIn) {
+		if (this.props.logged_in) {
 			return (<Redirect to='/chatlist'/>);
 		}
 		return (
 			<div className="page--authpage-container page">
-				<h1 className="component--authpage_title">Login</h1>
+				
 				<form onSubmit={this.onSubmit} className="component--authpage-form">
+					<h1 className="component--authpage_title">Login</h1>
 					<div className="form-input">
 						<Input label="Email" value={this.state.email} onChange={this.onEmailChange} variant="outlined" />
 					</div>
@@ -84,14 +89,13 @@ class LoginPage extends React.Component {
 	}
 }
 
-const LoginPageContainer =  withTracker(
-	() => {
-		return {
-			loggedIn: Meteor.userId(),
-			login: Meteor.loginWithPassword,
-		};
-	}
-)(LoginPage);
+function mapStateToProps(state) {
+	return {
+		logged_in: state.AuthState.logged_in,
+	};
+}
+
+const LoginPageContainer =  connect(mapStateToProps)(LoginPage);
 
 export default withRouter(({ history }) => (
 	<LoginPageContainer history={history} />

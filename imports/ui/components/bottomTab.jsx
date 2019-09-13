@@ -31,9 +31,7 @@ class BottomTab extends React.Component {
 	}
 
 	handleChange(event, newValue) {
-		this.props.history.push({
-			pathname: `/${newValue}`,
-		});
+		this.props.history.push(`/${newValue}`);
 		this.setState({tab: newValue});
 	}
 

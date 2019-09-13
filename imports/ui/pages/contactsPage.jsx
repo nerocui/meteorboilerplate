@@ -1,10 +1,9 @@
 import React from 'react';
-import Page from './Page';
 
 export default () => (
-	<Page background="#b94be5">
+	<div>
 		<div>
 			contact list
 		</div>
-	</Page>
+	</div>
 )

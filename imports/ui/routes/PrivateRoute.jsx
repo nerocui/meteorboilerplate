@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { Meteor } from 'meteor/meteor';
 import { Route, Redirect } from "react-router-dom";
-import { isAuthenticated } from "../../util/authUtil";
+import { connect }  from 'react-redux';
 
-export default class PrivateRoute extends Component {
+class PrivateRoute extends Component {
 	constructor(props) {
 		super(props);
 		this.renderRoute = this.renderRoute.bind(this);
@@ -10,9 +11,9 @@ export default class PrivateRoute extends Component {
 
 	renderRoute() {
 		const COMPONENT = this.props.component;
-		console.log("doing auth");
+		console.log("doing auth", this.props.logged_in);
 		return (
-			isAuthenticated() ? <COMPONENT /> : <Redirect to="/" />
+			this.props.logged_in ? <COMPONENT /> : <Redirect to="/" />
 		);
 	}
 
@@ -23,3 +24,11 @@ export default class PrivateRoute extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state) {
+	return {
+		logged_in: state.AuthState.logged_in,
+	};
+}
+
+export default connect(mapStateToProps)(PrivateRoute);
