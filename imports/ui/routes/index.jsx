@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import LoginPage from "../pages/LoginPage";
-import SignupPage from "../pages/SignupPage";
 import ChatListPage from '../pages/chatListPage';
 import MomentsPage from '../pages/momentsPage';
 import ContactsListPage from '../pages/contactsPage';
@@ -23,6 +22,7 @@ class Routes extends React.Component {
 
 	render() {
 		if (this.props.user) {
+			console.log('in login');
 			this.props.login(this.props.user);
 		} else {
 			console.log('in here logout');
@@ -32,7 +32,6 @@ class Routes extends React.Component {
 			<Router history={history}>
 				<Switch>
 					<Route exact path='/' component={LoginPage }/>
-					<Route exact path='/signup' component={SignupPage} />
 					<div>
 						<Switch>
 							<PrivateRoute exact path='/chatlist' component={ChatListPage} />

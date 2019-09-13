@@ -1,6 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import '../imports/api/user';
+import App from './App';
 
 Meteor.startup(() => {
-  console.log('[[[Server started]]]')
+  const app = new App();
+  app.useMigrator();
 });

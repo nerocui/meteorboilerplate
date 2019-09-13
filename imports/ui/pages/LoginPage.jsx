@@ -21,20 +21,19 @@ class LoginPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			email: '',
+			username: '',
 			password: '',
-			emailErr: '',
+			usernameErr: '',
 			passwordErr: '',
 			err: null,
 		}
-		this.onEmailChange = this.onEmailChange.bind(this);
+		this.onUsernameChange = this.onUsernameChange.bind(this);
 		this.onPasswordChange = this.onPasswordChange.bind(this);
 		this.onSubmit = this.onSubmit.bind(this);
-		this.onToggleMode = this.onToggleMode.bind(this);
 	}
 
-	onEmailChange(e) {
-		this.setState({email: e.target.value});
+	onUsernameChange(e) {
+		this.setState({username: e.target.value});
 	}
 
 	onPasswordChange(e) {
@@ -43,9 +42,9 @@ class LoginPage extends React.Component {
 
 	onSubmit(e) {
 		e.preventDefault();
-		const email = this.state.email;
+		const username = this.state.username;
 		const password = this.state.password;
-		Meteor.loginWithPassword({email}, password, err => {
+		Meteor.loginWithPassword({username}, password, err => {
 			console.log(err);
 		});
 		this.resetState();
@@ -53,12 +52,8 @@ class LoginPage extends React.Component {
 		console.log('user is: ', user);
 	}
 
-	onToggleMode() {
-		this.props.history.push('/signup')
-	}
-
 	resetState() {
-		this.setState({email: '', password: '', emailErr: '', passwordErr: '', err: ''});
+		this.setState({username: '', password: '', usernameErr: '', passwordErr: '', err: ''});
 	}
 
 
@@ -72,16 +67,13 @@ class LoginPage extends React.Component {
 				<form onSubmit={this.onSubmit} className="component--authpage-form">
 					<h1 className="component--authpage_title">Login</h1>
 					<div className="form-input">
-						<Input label="Email" value={this.state.email} onChange={this.onEmailChange} variant="outlined" />
+						<Input label="User name" value={this.state.username} onChange={this.onUsernameChange} variant="outlined" />
 					</div>
 					<div className="form-input">
 						<Input label="Password" value={this.state.password} onChange={this.onPasswordChange} type="password" variant="outlined" />
 					</div>
 					<div>
 						<Button variant="contained" color="primary" type="submit">Login</Button>
-					</div>
-					<div>
-						<Button onClick={this.onToggleMode}>Don't have an account? Signup</Button>
 					</div>
 				</form>
 			</div>
