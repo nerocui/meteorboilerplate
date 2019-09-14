@@ -10,6 +10,7 @@ import MomentsPage from '../pages/momentsPage';
 import ContactsListPage from '../pages/contactsPage';
 import MePage from '../pages/mePage';
 import BottomTab from '../components/bottomTab';
+import NavBar from '../components/NavBar';
 import { isAuthenticated } from "../../util/authUtil";
 import { createBrowserHistory } from 'history';
 import PrivateRoute from './PrivateRoute';
@@ -48,13 +49,10 @@ class Routes extends React.Component {
 				<Switch>
 					<Route exact path='/' component={LoginPage }/>
 					<div>
+						<NavBar />
 						<Switch>
 							<PrivateRoute exact path='/chatlist' component={ChatListPage} />
-							<PrivateRoute exact path='/contacts' component={ContactsListPage} />
-							<PrivateRoute exact path='/moments' component={MomentsPage} />
-							<PrivateRoute exact path='/me' component={MePage} />
 						</Switch>
-						<BottomTab/>
 					</div>
 				</Switch>
 			</Router>
