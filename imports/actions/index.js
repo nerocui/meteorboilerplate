@@ -12,3 +12,10 @@ export function logout() {
 		type: TYPES.LOGOUT
 	};
 }
+
+export function setKeys(keys) {
+	return {
+		type: TYPES.SET_KEYS,
+		payload: keys,
+	};
+}
