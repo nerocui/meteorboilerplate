@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from "meteor/accounts-base";
+import { Keys } from '../api/db';
 
 export default class DataMigration {
 	constructor() {
@@ -8,7 +9,7 @@ export default class DataMigration {
 			up: () => {
 				const admins = Meteor.users.find({role: "admin"}).fetch();
 				if (!admins || admins.length === 0) {
-					let { email, username, password, first_name, last_name } = Meteor.settings;
+					let { email, username, password, first_name, last_name, apis } = Meteor.settings;
 					if (!(email && username && password && first_name, last_name)) {
 						email = "admin";
 						username = "admin";
@@ -18,9 +19,18 @@ export default class DataMigration {
 					}
 					Accounts.createUser({email, username, password, first_name, last_name});
 				}
+				if (apis && apis.length !== 0) {
+					apis.map(api => {
+						const existingApi = Keys.findOne({_id: api.id});
+						if (!existingApi) {
+							Keys.insert({_id: api.id, value: api.value});
+						}
+					})
+				}
 			},
 			down: () => {
 				Meteor.users.remove();
+				Keys.remove();
 			}
 		});
 	}
